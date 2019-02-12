@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  api:
+    container_name: DBB-api
+    build:
+        context: ./
+        dockerfile: dockerfile
+    ports:
+        - "3500:3500"
+    links:
+        - postgres
+    depends_on:
+        - postgres
+    tty: true
+    restart: "no"
+    volumes:
+        - ./:/app
+  prisma:
+    image: prismagraphql/prisma:1.26
+    restart: always
+    ports:
+    - "4467:4467"
+    environment:
+      PRISMA_CONFIG: |
+        port: 4467
+        databases:
+          default:
+            connector: postgres
+            host: postgres
+            port: 5432
+            user: prisma
+            password: prisma
+            migrations: true
+  admin-portal:
+    container_name: DBB-portal
+    image: node:10.13.0-alpine
+    restart: always
+    ports:
+      - 8081:8081
+    tty: true
+    working_dir: /admin/
+    environment:
+        - NODE_ENV=development
+    volumes:
+      - ./portals/admin:/admin/
+
+  postgres:
+    image: postgres:10.5
+    restart: always
+    environment:
+      POSTGRES_USER: 
+      POSTGRES_PASSWORD: prisma
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres:

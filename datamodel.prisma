@@ -1,0 +1,11 @@
+type User {
+  id: ID! @unique
+  email: String! @unique
+  firstName: String!
+  lastName: String!
+  userName: String!
+  gender: String!
+  isAdmin: Boolean! @default(value:"false")
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}

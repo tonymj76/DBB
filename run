@@ -1,0 +1,14 @@
+if [ -n "$1" ]  #  If command-line argument present,
+then
+    if [ $1 = 'api' ]
+    then
+        docker-compose up -d
+        docker exec -it DBB-api /bin/sh
+    elif [ $1 = 'admin' ]
+    then
+        docker-compose up -d
+        docker exec -it DBB-portal /bin/sh -c "yarn app:dev"
+    fi
+else
+    echo "Please enter one of these arguments: api or admin"
+fi
