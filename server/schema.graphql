@@ -4,17 +4,50 @@ type User {
   firstName: String!
   lastName: String!
   userName: String!
+  images: [Image!]!
   gender: String!
   isAdmin: Boolean!
+  address: Address
+}
+
+type Image {
+  id: ID!
+  name: String!
+  userImage: User
+}
+
+type Address {
+  id: ID!
+  addressName: String!
+  city: String!
+  state: String!
+  country: String!
+  userAddress: User
 }
 
 type Mutation {
-  createUser(firstName: String!,
+  createUser(
+    firstName: String!,
     lastName:String!,
     email:String!,
-    userName:String!
-    isAdmin:Boolean!
-    gender:String!): User
+    userName:String!,
+    isAdmin:Boolean!,
+    #images:[String],
+    gender:String!
+    ): User
+
+  createImage(
+    name: String!,
+    userImage: ID!
+    ): Image
+
+  createAddress(
+    name: String!,
+    city: String!,
+    state: String!,
+    country: String
+    userAddress: ID!
+    ): Address
 }
 
 type Query {
