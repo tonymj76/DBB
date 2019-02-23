@@ -61,7 +61,7 @@ type ComplexityRoot struct {
 	Mutation struct {
 		CreateUser    func(childComplexity int, firstName string, lastName string, email string, userName string, isAdmin bool, gender string) int
 		CreateImage   func(childComplexity int, name string, userImage string) int
-		CreateAddress func(childComplexity int, name string, city string, state string, country *string, userAddress string) int
+		CreateAddress func(childComplexity int, name *string, city *string, state *string, country *string, userAddress string) int
 	}
 
 	Query struct {
@@ -91,7 +91,7 @@ type ImageResolver interface {
 type MutationResolver interface {
 	CreateUser(ctx context.Context, firstName string, lastName string, email string, userName string, isAdmin bool, gender string) (*prisma.User, error)
 	CreateImage(ctx context.Context, name string, userImage string) (*prisma.Image, error)
-	CreateAddress(ctx context.Context, name string, city string, state string, country *string, userAddress string) (*prisma.Address, error)
+	CreateAddress(ctx context.Context, name *string, city *string, state *string, country *string, userAddress string) (*prisma.Address, error)
 }
 type QueryResolver interface {
 	Users(ctx context.Context) ([]prisma.User, error)
@@ -189,28 +189,43 @@ func field_Mutation_createImage_args(rawArgs map[string]interface{}) (map[string
 
 func field_Mutation_createAddress_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 *string
 	if tmp, ok := rawArgs["name"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalString(tmp)
+		var ptr1 string
+		if tmp != nil {
+			ptr1, err = graphql.UnmarshalString(tmp)
+			arg0 = &ptr1
+		}
+
 		if err != nil {
 			return nil, err
 		}
 	}
 	args["name"] = arg0
-	var arg1 string
+	var arg1 *string
 	if tmp, ok := rawArgs["city"]; ok {
 		var err error
-		arg1, err = graphql.UnmarshalString(tmp)
+		var ptr1 string
+		if tmp != nil {
+			ptr1, err = graphql.UnmarshalString(tmp)
+			arg1 = &ptr1
+		}
+
 		if err != nil {
 			return nil, err
 		}
 	}
 	args["city"] = arg1
-	var arg2 string
+	var arg2 *string
 	if tmp, ok := rawArgs["state"]; ok {
 		var err error
-		arg2, err = graphql.UnmarshalString(tmp)
+		var ptr1 string
+		if tmp != nil {
+			ptr1, err = graphql.UnmarshalString(tmp)
+			arg2 = &ptr1
+		}
+
 		if err != nil {
 			return nil, err
 		}
@@ -413,7 +428,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateAddress(childComplexity, args["name"].(string), args["city"].(string), args["state"].(string), args["country"].(*string), args["userAddress"].(string)), true
+		return e.complexity.Mutation.CreateAddress(childComplexity, args["name"].(*string), args["city"].(*string), args["state"].(*string), args["country"].(*string), args["userAddress"].(string)), true
 
 	case "Query.users":
 		if e.complexity.Query.Users == nil {
@@ -1013,7 +1028,7 @@ func (ec *executionContext) _Mutation_createAddress(ctx context.Context, field g
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateAddress(rctx, args["name"].(string), args["city"].(string), args["state"].(string), args["country"].(*string), args["userAddress"].(string))
+		return ec.resolvers.Mutation().CreateAddress(rctx, args["name"].(*string), args["city"].(*string), args["state"].(*string), args["country"].(*string), args["userAddress"].(string))
 	})
 	if resTmp == nil {
 		return graphql.Null
@@ -3110,10 +3125,10 @@ type Mutation {
     ): Image
 
   createAddress(
-    name: String!,
-    city: String!,
-    state: String!,
-    country: String
+    name: String,
+    city: String,
+    state: String,
+    country: String,
     userAddress: ID!
     ): Address
 }

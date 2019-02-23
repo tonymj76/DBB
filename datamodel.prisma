@@ -7,7 +7,7 @@ type User {
   gender: String!
   images: [Image!]! @relation(name:"UserImages" onDelete: CASCADE)
   isAdmin: Boolean! @default(value:"false")
-  address: Address  @relation(name:"Address" onDelete: CASCADE)
+  address: Address  @relation(name:"UserAddress" onDelete: CASCADE)
   createdAt: DateTime!
   updatedAt: DateTime!
 }

@@ -58,12 +58,12 @@ func (r *mutationResolver) CreateImage(ctx context.Context, name string, userIma
 		},
 	}).Exec(ctx)
 }
-func (r *mutationResolver) CreateAddress(ctx context.Context, name string, city string, state string, country *string, userAddress string) (*prisma.Address, error) {
+func (r *mutationResolver) CreateAddress(ctx context.Context, name *string, city *string, state *string, country *string, userAddress string) (*prisma.Address, error) {
 	return r.Prisma.CreateAddress(prisma.AddressCreateInput{
-		AddressName: name,
-		State:       state,
+		AddressName: *name,
+		State:       *state,
 		Country:     country,
-		City:        &city,
+		City:        city,
 		UserAddress: &prisma.UserCreateOneWithoutAddressInput{
 			Connect: &prisma.UserWhereUniqueInput{ID: &userAddress},
 		},

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"log"
+	"github.com/99designs/gqlgen/handler"
 	prisma "github.com/tonymj76/DBB/generated/prisma-client"
+	"log"
 	"net/http"
 	"os"
-	"github.com/99designs/gqlgen/handler"
 )
 
 const defaultPort = "4000"
