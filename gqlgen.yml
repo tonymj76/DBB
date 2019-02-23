@@ -7,6 +7,11 @@ models:
 
   User:
     model: github.com/tonymj76/DBB/generated/prisma-client.User
+  Image:
+    model: github.com/tonymj76/DBB/generated/prisma-client.Image
+  Address:
+    model: github.com/tonymj76/DBB/generated/prisma-client.Address
+
 
 resolver:
   # Goal: copy&paste from generated file

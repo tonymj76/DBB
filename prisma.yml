@@ -28,6 +28,7 @@ generate:
 hooks:
   post-deploy:
     - prisma generate
+    - go run scripts/gqlgen.go
 
 # can you share a terminal with me that has full access
 # from the vsls menu
